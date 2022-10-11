@@ -9,11 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     UserService userService;
 
@@ -27,20 +27,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/").permitAll()
-//                    .anyRequest().authenticated()
+                .antMatchers("/secured").hasAuthority("User1")
+                .antMatchers("/user/*").hasAuthority("User1")
                 .and()
                 .formLogin()
                     .loginPage("/login")
-//                    .permitAll()
-//                .defaultSuccessUrl("/admin")
+                .defaultSuccessUrl("/secured")
                 .and()
                 .logout().logoutUrl("/logout");
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
-//                .invalidateHttpSession(true)
-//                .clearAuthentication(true)
-//                .deleteCookies("JSESSIONID")
-//                .logoutSuccessUrl("/auth/login");
     }
 
     @Autowired

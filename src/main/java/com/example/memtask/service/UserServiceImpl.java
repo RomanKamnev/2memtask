@@ -4,17 +4,16 @@ import com.example.memtask.dao.RoleDao;
 import com.example.memtask.dao.UserDao;
 import com.example.memtask.model.Role;
 import com.example.memtask.model.User;
-
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Kamnev Roman
@@ -22,9 +21,6 @@ import java.util.*;
  */
 @Service
 public class UserServiceImpl implements UserService {
-
-    @PersistenceContext
-    private EntityManager em;
 
     @Autowired
     UserDao userDao;
@@ -77,10 +73,5 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
-    }
-
-    public List<User> usergtList(Long idMin) {
-        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
     }
 }

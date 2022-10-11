@@ -4,7 +4,6 @@ package com.example.memtask.service;
 import com.example.memtask.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
