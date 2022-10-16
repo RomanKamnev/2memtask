@@ -11,16 +11,23 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
     depends_on:
       - db
+    networks:
+      - 2memtask
   db:
     image: "postgres:13.4-alpine"
     container_name: db
     ports:
       - 5433:5432
     volumes:
-      - ./pg_data:/var/lib/postgresql/data/pgdata
+      - pgdata:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
-      PGDATA: /var/lib/postgresql/data/pgdata
-    restart: always
+    networks:
+      - 2memtask
+networks:
+  2memtask:
+    driver: bridge
+volumes:
+  pgdata:
